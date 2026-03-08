@@ -7,24 +7,69 @@ import org.gradle.process.ExecOperations
 import java.io.ByteArrayOutputStream
 
 plugins {
-    id("java-library")
-    id("io.freefair.lombok") version "9.2.0"
+    id("java")
     id("com.gradleup.shadow") version "9.3.1"
+    id("io.papermc.paperweight.userdev") version "2.0.0-beta.19"
 }
 
-// TODO: Configure
-group = "dev.lumas.decompile_patcher_template"
-version = "0.0.0"
+
+group = "de.Linus122"
+version = "2.0.0"
 
 repositories {
-    // TODO: Configure
+    mavenCentral()
+    maven("https://repo.papermc.io/repository/maven-public/")
+    maven("https://repo.codemc.io/repository/maven-public/")
+    maven("https://maven.citizensnpcs.co/repo")
+    maven("https://repo.songoda.com/repository/minecraft-plugins/")
+    maven("https://repo.glaremasters.me/repository/bloodshot")
+    maven("https://repo.william278.net/releases")
+    maven("https://api.modrinth.com/maven")
+    maven("https://mvn.lumine.io/repository/maven-public/")
+    maven("https://repo.papermc.io/repository/maven-public/")
+    maven("https://repo.bsdevelopment.org/releases")
+    maven("https://repo.bg-software.com/repository/api/")
+    maven("https://repo.glaremasters.me/repository/towny/")
+    maven("https://maven.enginehub.org/repo/")
+    maven("https://repo.rosewooddev.io/repository/public/")
+    maven("https://repo.mikeprimm.com/")
+
+    maven("https://jitpack.io/")
 }
 
 dependencies {
-    // TODO: Configure
+    // Paper API
+    //compileOnly("io.papermc.paper:paper-api:1.21-R0.1-SNAPSHOT")
+    //compileOnly("dev.folia:folia-api:1.20.1-R0.1-SNAPSHOT")
+    paperweight.paperDevBundle("1.21.11-R0.1-SNAPSHOT") {
+        isTransitive = false
+    }
+    compileOnly("com.github.GriefPrevention:GriefPrevention:16.18.2")
+    //compileOnly("world.bentobox:bentobox:2.7.0") { isTransitive = false }
+    compileOnly("net.citizensnpcs:citizens-main:2.0.41-SNAPSHOT") { isTransitive = false }
+    //compileOnly("net.crashcraft:CrashClaim")
+    compileOnly("com.songoda:FabledSkyBlock:4.2.0-SNAPSHOT") { isTransitive = false }
+    compileOnly("com.griefdefender:api:2.1.0-SNAPSHOT") { isTransitive = false }
+    //compileOnly("net.william278.huskclaims:huskclaims-bukkit:1.5+1.21.1") { isTransitive = false }
+    //compileOnly("com.github.cryptomorin:kingdoms:1.17.26")
+    compileOnly("com.github.angeschossen:LandsAPI:7.24.1")
+    compileOnly("maven.modrinth:mypet:3.14.1-SNAPSHOT-b14")
+    compileOnly("io.lumine:Mythic-Dist:5.6.1")
+    implementation(platform("com.intellectualsites.bom:bom-newest:1.55"))
+    compileOnly("com.intellectualsites.plotsquared:plotsquared-core") { isTransitive = false }
+    compileOnly("com.intellectualsites.plotsquared:plotsquared-bukkit") { isTransitive = false }
+    //compileOnly("io.github.fabiozumbi12.RedProtect:RedProtect-Spigot:8.1.2-SNAPSHOT"){ exclude(group = "*") }
+    compileOnly("com.github.Zrips:Residence:6.0.0.1") { isTransitive = false }
+    implementation("org.bsdevelopment.simplepets:api:R5-B295")
+    compileOnly("com.bgsoftware:SuperiorSkyblockAPI:2025.2.1")
+    compileOnly("com.palmergames.bukkit.towny:towny:0.102.0.0")
+    compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.9-beta1")
+    compileOnly("com.ticxo.modelengine:ModelEngine:R4.0.4")
+    compileOnly("dev.rosewood:rosestacker:1.5.39")
+    compileOnly("com.github.MilkBowl:VaultAPI:1.7") { isTransitive = false }
 }
 
-// TODO: Configure
+
 tasks {
     shadowJar {
         archiveClassifier.set("")
@@ -47,20 +92,21 @@ tasks {
     }
 }
 
-// TODO: Configure
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(21))
 }
 
-// TODO: Configure
 val decompileConfig = DecompileConfig(
-    inputJar = "sources/Decompile-Patcher-Template.jar",
+    inputJar = "sources/SafariNet-2.jar",
     packageMappings = mapOf(
-        "dev/lumas/decompile_patcher_template" to "."
+        "de/Linus122" to ".",
+        "xyz/spaceio" to ".",
+        "webapi" to "."
     ),
     resourceMappings = mapOf(
         "plugin.yml" to ".",
-        //"config.yml" to "."
+        "config.yml" to ".",
+        "ability_parsing.yml" to "."
     )
 )
 

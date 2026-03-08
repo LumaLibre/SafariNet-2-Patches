@@ -1,0 +1,58 @@
+diff --git a/de/Linus122/SafariNet/NMS/adapters/RoseStackerAdapter.java b/de/Linus122/SafariNet/NMS/adapters/RoseStackerAdapter.java
+index 373e83e..ce4cb73 100644
+--- a/de/Linus122/SafariNet/NMS/adapters/RoseStackerAdapter.java
++++ b/de/Linus122/SafariNet/NMS/adapters/RoseStackerAdapter.java
+@@ -34,10 +34,10 @@ public class RoseStackerAdapter implements SafariNetSpawnAdapter {
+          StackingThread sThread = RoseStackerAPI.getInstance().getStackingThread(entity.getWorld());
+          if (sThread != null) {
+             ((StackManager)RoseStacker.getInstance().getManager(StackManager.class)).setEntityStackingTemporarilyDisabled(true);
+-            Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
++            entity.getScheduler().runDelayed(Main.getInstance(), (t) -> {
+                sThread.addEntityStack(savedInNetStack);
+                ((StackManager)RoseStacker.getInstance().getManager(StackManager.class)).setEntityStackingTemporarilyDisabled(false);
+-            }, 0L);
++            }, null, 0L);
+          }
+       }
+    }
+diff --git a/de/Linus122/SafariNet/SafariNetManager.java b/de/Linus122/SafariNet/SafariNetManager.java
+index eb6e9d5..122ef49 100644
+--- a/de/Linus122/SafariNet/SafariNetManager.java
++++ b/de/Linus122/SafariNet/SafariNetManager.java
+@@ -86,7 +86,7 @@ public class SafariNetManager {
+          this.spawnAdapters.forEach(adapter -> adapter.onPreSpawn(entity, entityCompound));
+          Main.nms.addEntityWithUUID(location.getWorld(), (LivingEntity)entity, SpawnReason.SPAWNER_EGG);
+          this.spawnAdapters.forEach(adapter -> adapter.onPostSpawn(entity, entityCompound));
+-         entity.teleport(location);
++         entity.teleportAsync(location);
+       });
+    }
+ 
+diff --git a/de/Linus122/SafariNet/version/v1_21_R7/NMSUtils.java b/de/Linus122/SafariNet/version/v1_21_R7/NMSUtils.java
+index 0f0d804..7b51a1e 100644
+--- a/de/Linus122/SafariNet/version/v1_21_R7/NMSUtils.java
++++ b/de/Linus122/SafariNet/version/v1_21_R7/NMSUtils.java
+@@ -3,6 +3,7 @@ package de.Linus122.SafariNet.version.v1_21_R7;
+ import com.google.gson.JsonParser;
+ import com.mojang.brigadier.exceptions.CommandSyntaxException;
+ import com.mojang.serialization.JsonOps;
++import de.Linus122.SafariNet.Main;
+ import de.Linus122.SafariNet.NMS.NMS;
+ import de.Linus122.SafariNet.NMS.WrappedCompoundTag;
+ import java.util.Base64;
+@@ -136,7 +137,13 @@ public class NMSUtils implements NMS {
+ 
+    @Override
+    public void setEntityPosAndLevel(Entity entity, Location location) {
+-      ((CraftEntity)entity).getHandle().setPos(location.getX(), location.getY(), location.getZ());
+-      ((CraftEntity)entity).getHandle().setLevel(((CraftWorld)location.getWorld()).getHandle());
++      // Luma start - set entity pos on proper thread
++      entity.getScheduler().run(Main.getInstance(), (t) -> {
++         ((CraftEntity)entity).getHandle().setPos(location.getX(), location.getY(), location.getZ());
++         ((CraftEntity)entity).getHandle().setLevel(((CraftWorld)location.getWorld()).getHandle());
++      }, () -> {
++         Main.sendDebug("Failed to set entity position and level");
++      });
++      // Luma end - set entity pos on proper thread
+    }
+ }

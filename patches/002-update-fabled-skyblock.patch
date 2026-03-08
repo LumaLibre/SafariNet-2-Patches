@@ -1,0 +1,13 @@
+diff --git a/de/Linus122/SafariNet/Hooks/HookFabledSkyblock.java b/de/Linus122/SafariNet/Hooks/HookFabledSkyblock.java
+index eae8ae4..f481cbb 100644
+--- a/de/Linus122/SafariNet/Hooks/HookFabledSkyblock.java
++++ b/de/Linus122/SafariNet/Hooks/HookFabledSkyblock.java
+@@ -17,7 +17,7 @@ public class HookFabledSkyblock implements IHook {
+       SkyBlock skyblock = (SkyBlock)Bukkit.getPluginManager().getPlugin("FabledSkyBlock");
+       Island islandAtLocation = skyblock.getIslandManager().getIslandAtLocation(e.getRightClicked().getLocation());
+       if (islandAtLocation != null && islandAtLocation.getRole(e.getPlayer()) != null) {
+-         boolean canCatch = islandAtLocation.getRole(e.getPlayer()) != IslandRole.Visitor || e.getPlayer().isOp();
++         boolean canCatch = islandAtLocation.getRole(e.getPlayer()) != IslandRole.VISITOR || e.getPlayer().isOp(); // Luma - update fabled skyblock
+          return !canCatch ? Optional.of(Utils.getConfigMessage("no_perms2")) : Optional.empty();
+       } else {
+          return Optional.empty();

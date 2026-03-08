@@ -1,0 +1,452 @@
+diff --git a/de/Linus122/SafariNet/Hooks/HookBentoBox.java b/de/Linus122/SafariNet/Hooks/HookBentoBox.java
+index 04f20d6..24756d2 100644
+--- a/de/Linus122/SafariNet/Hooks/HookBentoBox.java
++++ b/de/Linus122/SafariNet/Hooks/HookBentoBox.java
+@@ -4,35 +4,41 @@ import de.Linus122.Utils.Utils;
+ import java.util.Optional;
+ import org.bukkit.event.player.PlayerInteractEntityEvent;
+ import org.bukkit.event.player.PlayerInteractEvent;
+-import world.bentobox.bentobox.BentoBox;
++//import world.bentobox.bentobox.BentoBox; // Luma - Useless dependencies
+ 
+ public class HookBentoBox implements IHook {
+    @Override
+    public Optional<String> cantCatch(PlayerInteractEntityEvent e) {
+-      BentoBox bentoBoxInst = BentoBox.getInstance();
+-      Optional<Boolean> canUseEgg = bentoBoxInst.getFlagsManager()
+-         .getFlag("SPAWN_EGGS")
+-         .map(
+-            flag -> bentoBoxInst.getIslands()
+-               .getIslandAt(e.getPlayer().getLocation())
+-               .map(island -> island == null || island.isAllowed(bentoBoxInst.getPlayers().getUser(e.getPlayer().getUniqueId()), flag))
+-         )
+-         .orElse(Optional.of(true));
+-      return canUseEgg.isPresent() && !canUseEgg.get() ? Optional.of(Utils.getConfigMessage("no_perms2")) : Optional.empty();
++      // Luma start - Useless dependencies
++      return Optional.empty();
++//      BentoBox bentoBoxInst = BentoBox.getInstance();
++//      Optional<Boolean> canUseEgg = bentoBoxInst.getFlagsManager()
++//         .getFlag("SPAWN_EGGS")
++//         .map(
++//            flag -> bentoBoxInst.getIslands()
++//               .getIslandAt(e.getPlayer().getLocation())
++//               .map(island -> island == null || island.isAllowed(bentoBoxInst.getPlayers().getUser(e.getPlayer().getUniqueId()), flag))
++//         )
++//         .orElse(Optional.of(true));
++//      return canUseEgg.isPresent() && !canUseEgg.get() ? Optional.of(Utils.getConfigMessage("no_perms2")) : Optional.empty();
++      // Luma end - Useless dependencies
+    }
+ 
+    @Override
+    public Optional<String> cantRelease(PlayerInteractEvent e) {
+-      BentoBox bentoBoxInst = BentoBox.getInstance();
+-      Optional<Boolean> canUseEgg = bentoBoxInst.getFlagsManager()
+-         .getFlag("SPAWN_EGGS")
+-         .map(
+-            flag -> bentoBoxInst.getIslands()
+-               .getIslandAt(e.getPlayer().getLocation())
+-               .map(island -> island == null || island.isAllowed(bentoBoxInst.getPlayers().getUser(e.getPlayer().getUniqueId()), flag))
+-         )
+-         .orElse(Optional.of(true));
+-      return canUseEgg.isPresent() && !canUseEgg.get() ? Optional.of(Utils.getConfigMessage("no_perms2")) : Optional.empty();
++      // Luma start - Useless dependencies
++      return Optional.empty();
++//      BentoBox bentoBoxInst = BentoBox.getInstance();
++//      Optional<Boolean> canUseEgg = bentoBoxInst.getFlagsManager()
++//         .getFlag("SPAWN_EGGS")
++//         .map(
++//            flag -> bentoBoxInst.getIslands()
++//               .getIslandAt(e.getPlayer().getLocation())
++//               .map(island -> island == null || island.isAllowed(bentoBoxInst.getPlayers().getUser(e.getPlayer().getUniqueId()), flag))
++//         )
++//         .orElse(Optional.of(true));
++//      return canUseEgg.isPresent() && !canUseEgg.get() ? Optional.of(Utils.getConfigMessage("no_perms2")) : Optional.empty();
++      // Luma end - Useless dependencies
+    }
+ 
+    @Override
+diff --git a/de/Linus122/SafariNet/Hooks/HookCombatPets.java b/de/Linus122/SafariNet/Hooks/HookCombatPets.java
+index e0386ba..653aa36 100644
+--- a/de/Linus122/SafariNet/Hooks/HookCombatPets.java
++++ b/de/Linus122/SafariNet/Hooks/HookCombatPets.java
+@@ -5,15 +5,18 @@ import java.util.Optional;
+ import org.bukkit.entity.LivingEntity;
+ import org.bukkit.event.player.PlayerInteractEntityEvent;
+ import org.bukkit.event.player.PlayerInteractEvent;
+-import su.nightexpress.combatpets.api.pet.PetEntityBridge;
++//import su.nightexpress.combatpets.api.pet.PetEntityBridge; // Luma - Useless dependencies
+ 
+ @IgnoreBypass
+ public class HookCombatPets implements IHook {
+    @Override
+    public Optional<String> cantCatch(PlayerInteractEntityEvent e) {
+-      return e.getRightClicked() instanceof LivingEntity && PetEntityBridge.isPet((LivingEntity)e.getRightClicked())
+-         ? Optional.of(Utils.getConfigMessage("cant_catch_pet"))
+-         : Optional.ofNullable(null);
++      // Luma start - Useless dependencies
++      return Optional.ofNullable(null);
++//      return e.getRightClicked() instanceof LivingEntity && PetEntityBridge.isPet((LivingEntity)e.getRightClicked())
++//         ? Optional.of(Utils.getConfigMessage("cant_catch_pet"))
++//         : Optional.ofNullable(null);
++      // Luma end - Useless dependencies
+    }
+ 
+    @Override
+diff --git a/de/Linus122/SafariNet/Hooks/HookCrashClaim.java b/de/Linus122/SafariNet/Hooks/HookCrashClaim.java
+index 77c3a92..ff0eaed 100644
+--- a/de/Linus122/SafariNet/Hooks/HookCrashClaim.java
++++ b/de/Linus122/SafariNet/Hooks/HookCrashClaim.java
+@@ -2,9 +2,11 @@ package de.Linus122.SafariNet.Hooks;
+ 
+ import de.Linus122.Utils.Utils;
+ import java.util.Optional;
+-import net.crashcraft.crashclaim.CrashClaim;
+-import net.crashcraft.crashclaim.permissions.PermissionHelper;
+-import net.crashcraft.crashclaim.permissions.PermissionRoute;
++// Luma start - Useless dependencies
++//import net.crashcraft.crashclaim.CrashClaim;
++//import net.crashcraft.crashclaim.permissions.PermissionHelper;
++//import net.crashcraft.crashclaim.permissions.PermissionRoute;
++// Luma end - Useless dependencies
+ import org.bukkit.Bukkit;
+ import org.bukkit.event.player.PlayerInteractEntityEvent;
+ import org.bukkit.event.player.PlayerInteractEvent;
+@@ -12,18 +14,24 @@ import org.bukkit.event.player.PlayerInteractEvent;
+ public class HookCrashClaim implements IHook {
+    @Override
+    public Optional<String> cantCatch(PlayerInteractEntityEvent e) {
+-      PermissionHelper helper = ((CrashClaim)Bukkit.getPluginManager().getPlugin("CrashClaim")).getApi().getPermissionHelper();
+-      return !helper.hasPermission(e.getPlayer().getUniqueId(), e.getRightClicked().getLocation(), PermissionRoute.ENTITIES)
+-         ? Optional.of(Utils.getConfigMessage("no_perms2"))
+-         : Optional.empty();
++      // Luma start - Useless dependencies
++      return Optional.empty();
++//      PermissionHelper helper = ((CrashClaim)Bukkit.getPluginManager().getPlugin("CrashClaim")).getApi().getPermissionHelper();
++//      return !helper.hasPermission(e.getPlayer().getUniqueId(), e.getRightClicked().getLocation(), PermissionRoute.ENTITIES)
++//         ? Optional.of(Utils.getConfigMessage("no_perms2"))
++//         : Optional.empty();
++      // Luma end - Useless dependencies
+    }
+ 
+    @Override
+    public Optional<String> cantRelease(PlayerInteractEvent e) {
+-      PermissionHelper helper = ((CrashClaim)Bukkit.getPluginManager().getPlugin("CrashClaim")).getApi().getPermissionHelper();
+-      return !helper.hasPermission(e.getPlayer().getUniqueId(), e.getClickedBlock().getLocation(), PermissionRoute.ENTITIES)
+-         ? Optional.of(Utils.getConfigMessage("no_perms2"))
+-         : Optional.empty();
++      // Luma start - Useless dependencies
++      return Optional.empty();
++//      PermissionHelper helper = ((CrashClaim)Bukkit.getPluginManager().getPlugin("CrashClaim")).getApi().getPermissionHelper();
++//      return !helper.hasPermission(e.getPlayer().getUniqueId(), e.getClickedBlock().getLocation(), PermissionRoute.ENTITIES)
++//         ? Optional.of(Utils.getConfigMessage("no_perms2"))
++//         : Optional.empty();
++      // Luma end - Useless dependencies
+    }
+ 
+    @Override
+diff --git a/de/Linus122/SafariNet/Hooks/HookHuskClaims.java b/de/Linus122/SafariNet/Hooks/HookHuskClaims.java
+index 2a20994..947cb24 100644
+--- a/de/Linus122/SafariNet/Hooks/HookHuskClaims.java
++++ b/de/Linus122/SafariNet/Hooks/HookHuskClaims.java
+@@ -2,55 +2,63 @@ package de.Linus122.SafariNet.Hooks;
+ 
+ import de.Linus122.Utils.Utils;
+ import java.util.Optional;
+-import net.william278.huskclaims.api.HuskClaimsAPI;
+-import net.william278.huskclaims.libraries.cloplib.operation.OperationType;
+-import net.william278.huskclaims.position.Position;
+-import net.william278.huskclaims.position.World;
+-import net.william278.huskclaims.user.OnlineUser;
++// Luma start - Useless dependencies
++//import net.william278.huskclaims.api.HuskClaimsAPI;
++//import net.william278.huskclaims.libraries.cloplib.operation.OperationType;
++//import net.william278.huskclaims.position.Position;
++//import net.william278.huskclaims.position.World;
++//import net.william278.huskclaims.user.OnlineUser;
++// Luma end - Useless dependencies
+ import org.bukkit.event.player.PlayerInteractEntityEvent;
+ import org.bukkit.event.player.PlayerInteractEvent;
+ 
+ public class HookHuskClaims implements IHook {
+    @Override
+    public Optional<String> cantCatch(PlayerInteractEntityEvent e) {
+-      if (HuskClaimsAPI.getInstance() == null) {
+-         return Optional.empty();
+-      } else {
+-         OnlineUser user = HuskClaimsAPI.getInstance().getOnlineUser(e.getPlayer().getUniqueId());
+-         World huskWorld = HuskClaimsAPI.getInstance().getWorld(e.getRightClicked().getLocation().getWorld().getName());
+-         if (user != null && huskWorld != null) {
+-            Position position = Position.at(
+-               e.getRightClicked().getLocation().getX(), e.getRightClicked().getLocation().getY(), e.getRightClicked().getLocation().getZ(), huskWorld
+-            );
+-            return !HuskClaimsAPI.getInstance().isOperationAllowed(user, OperationType.ENTITY_INTERACT, position)
+-               ? Optional.of(Utils.getConfigMessage("no_perms2"))
+-               : Optional.empty();
+-         } else {
+-            return Optional.of(Utils.getConfigMessage("no_perms2"));
+-         }
+-      }
++      // Luma start - Useless dependencies
++      return Optional.empty();
++//      if (HuskClaimsAPI.getInstance() == null) {
++//         return Optional.empty();
++//      } else {
++//         OnlineUser user = HuskClaimsAPI.getInstance().getOnlineUser(e.getPlayer().getUniqueId());
++//         World huskWorld = HuskClaimsAPI.getInstance().getWorld(e.getRightClicked().getLocation().getWorld().getName());
++//         if (user != null && huskWorld != null) {
++//            Position position = Position.at(
++//               e.getRightClicked().getLocation().getX(), e.getRightClicked().getLocation().getY(), e.getRightClicked().getLocation().getZ(), huskWorld
++//            );
++//            return !HuskClaimsAPI.getInstance().isOperationAllowed(user, OperationType.ENTITY_INTERACT, position)
++//               ? Optional.of(Utils.getConfigMessage("no_perms2"))
++//               : Optional.empty();
++//         } else {
++//            return Optional.of(Utils.getConfigMessage("no_perms2"));
++//         }
++//      }
++      // Luma end - Useless dependencies
+    }
+ 
+    @Override
+    public Optional<String> cantRelease(PlayerInteractEvent e) {
+-      if (HuskClaimsAPI.getInstance() == null) {
+-         return Optional.empty();
+-      } else if (e.getClickedBlock() == null) {
+-         return Optional.empty();
+-      } else {
+-         OnlineUser user = HuskClaimsAPI.getInstance().getOnlineUser(e.getPlayer().getUniqueId());
+-         World huskWorld = HuskClaimsAPI.getInstance().getWorld(e.getClickedBlock().getLocation().getWorld().getName());
+-         if (user != null && huskWorld != null) {
+-            Position position = Position.at(
+-               e.getClickedBlock().getLocation().getX(), e.getClickedBlock().getLocation().getY(), e.getClickedBlock().getLocation().getZ(), huskWorld
+-            );
+-            return !HuskClaimsAPI.getInstance().isOperationAllowed(user, OperationType.BLOCK_INTERACT, position)
+-               ? Optional.of(Utils.getConfigMessage("no_perms2"))
+-               : Optional.empty();
+-         } else {
+-            return Optional.of(Utils.getConfigMessage("no_perms2"));
+-         }
+-      }
++      // Luma start - Useless dependencies
++      return Optional.empty();
++//      if (HuskClaimsAPI.getInstance() == null) {
++//         return Optional.empty();
++//      } else if (e.getClickedBlock() == null) {
++//         return Optional.empty();
++//      } else {
++//         OnlineUser user = HuskClaimsAPI.getInstance().getOnlineUser(e.getPlayer().getUniqueId());
++//         World huskWorld = HuskClaimsAPI.getInstance().getWorld(e.getClickedBlock().getLocation().getWorld().getName());
++//         if (user != null && huskWorld != null) {
++//            Position position = Position.at(
++//               e.getClickedBlock().getLocation().getX(), e.getClickedBlock().getLocation().getY(), e.getClickedBlock().getLocation().getZ(), huskWorld
++//            );
++//            return !HuskClaimsAPI.getInstance().isOperationAllowed(user, OperationType.BLOCK_INTERACT, position)
++//               ? Optional.of(Utils.getConfigMessage("no_perms2"))
++//               : Optional.empty();
++//         } else {
++//            return Optional.of(Utils.getConfigMessage("no_perms2"));
++//         }
++//      }
++      // Luma end - Useless dependencies
+    }
+ 
+    @Override
+diff --git a/de/Linus122/SafariNet/Hooks/HookKingdoms.java b/de/Linus122/SafariNet/Hooks/HookKingdoms.java
+index 997b5f5..bdc706d 100644
+--- a/de/Linus122/SafariNet/Hooks/HookKingdoms.java
++++ b/de/Linus122/SafariNet/Hooks/HookKingdoms.java
+@@ -2,13 +2,16 @@ package de.Linus122.SafariNet.Hooks;
+ 
+ import de.Linus122.Utils.Utils;
+ import java.util.Optional;
++
+ import org.bukkit.Location;
+ import org.bukkit.entity.Player;
+ import org.bukkit.event.player.PlayerInteractEntityEvent;
+ import org.bukkit.event.player.PlayerInteractEvent;
+-import org.kingdoms.constants.group.model.relationships.StandardRelationAttribute;
+-import org.kingdoms.constants.land.Land;
+-import org.kingdoms.constants.player.KingdomPlayer;
++// Luma start - Useless dependencies
++//import org.kingdoms.constants.group.model.relationships.StandardRelationAttribute;
++//import org.kingdoms.constants.land.Land;
++//import org.kingdoms.constants.player.KingdomPlayer;
++// Luma end - Useless dependencies
+ 
+ public class HookKingdoms implements IHook {
+    @Override
+@@ -27,13 +30,16 @@ public class HookKingdoms implements IHook {
+    }
+ 
+    public Optional<String> cantInteract(Player bukkitPlayer, Location locationAt) {
+-      KingdomPlayer player = KingdomPlayer.getKingdomPlayer(bukkitPlayer);
+-      Land land = Land.getLand(locationAt);
+-      return land != null
+-            && land.getKingdom() != null
+-            && !player.isAdmin()
+-            && !StandardRelationAttribute.INTERACT.hasAttribute(player.getKingdom(), land.getKingdom())
+-         ? Optional.of(Utils.getConfigMessage("no_perms2"))
+-         : Optional.empty();
++      // Luma start - Useless dependencies
++      return Optional.empty();
++//      KingdomPlayer player = KingdomPlayer.getKingdomPlayer(bukkitPlayer);
++//      Land land = Land.getLand(locationAt);
++//      return land != null
++//            && land.getKingdom() != null
++//            && !player.isAdmin()
++//            && !StandardRelationAttribute.INTERACT.hasAttribute(player.getKingdom(), land.getKingdom())
++//         ? Optional.of(Utils.getConfigMessage("no_perms2"))
++//         : Optional.empty();
++      // Luma end - Useless dependencies
+    }
+ }
+diff --git a/de/Linus122/SafariNet/Hooks/HookRedProtect.java b/de/Linus122/SafariNet/Hooks/HookRedProtect.java
+index ee03ed9..b18bcee 100644
+--- a/de/Linus122/SafariNet/Hooks/HookRedProtect.java
++++ b/de/Linus122/SafariNet/Hooks/HookRedProtect.java
+@@ -1,7 +1,9 @@
+ package de.Linus122.SafariNet.Hooks;
+ 
+-import br.net.fabiozumbi12.RedProtect.Bukkit.RedProtect;
+-import br.net.fabiozumbi12.RedProtect.Bukkit.Region;
++// Luma start - Useless dependencies
++//import br.net.fabiozumbi12.RedProtect.Bukkit.RedProtect;
++//import br.net.fabiozumbi12.RedProtect.Bukkit.Region;
++// Luma end - Useless dependencies
+ import de.Linus122.Utils.Utils;
+ import java.util.Optional;
+ import org.bukkit.event.player.PlayerInteractEntityEvent;
+@@ -10,18 +12,24 @@ import org.bukkit.event.player.PlayerInteractEvent;
+ public class HookRedProtect implements IHook {
+    @Override
+    public Optional<String> cantCatch(PlayerInteractEntityEvent e) {
+-      Region region = RedProtect.get().getAPI().getRegion(e.getRightClicked().getLocation());
+-      return region != null && !region.canInteractPassives(e.getPlayer()) ? Optional.of(Utils.getConfigMessage("no_perms2")) : Optional.empty();
++      // Luma start - Useless dependencies
++      return Optional.empty();
++      /*Region region = RedProtect.get().getAPI().getRegion(e.getRightClicked().getLocation());
++      return region != null && !region.canInteractPassives(e.getPlayer()) ? Optional.of(Utils.getConfigMessage("no_perms2")) : Optional.empty();*/
++      // Luma end - Useless dependencies
+    }
+ 
+    @Override
+    public Optional<String> cantRelease(PlayerInteractEvent e) {
+-      if (e.getClickedBlock() == null) {
++      // Luma start - Useless dependencies
++      return Optional.empty();
++      /*if (e.getClickedBlock() == null) {
+          return Optional.empty();
+       } else {
+          Region region = RedProtect.get().getAPI().getRegion(e.getClickedBlock().getLocation());
+          return region != null && !region.canSpawnPassives(e.getPlayer()) ? Optional.of(Utils.getConfigMessage("no_perms2")) : Optional.empty();
+-      }
++      }*/
++      // Luma end - Useless dependencies
+    }
+ 
+    @Override
+diff --git a/de/Linus122/SafariNet/Hooks/HookTradeMe.java b/de/Linus122/SafariNet/Hooks/HookTradeMe.java
+index 074a7a1..482be04 100644
+--- a/de/Linus122/SafariNet/Hooks/HookTradeMe.java
++++ b/de/Linus122/SafariNet/Hooks/HookTradeMe.java
+@@ -2,19 +2,25 @@ package de.Linus122.SafariNet.Hooks;
+ 
+ import de.Linus122.Utils.Utils;
+ import java.util.Optional;
+-import me.Zrips.TradeMe.TradeMe;
++//import me.Zrips.TradeMe.TradeMe; // Luma - Useless hooks
+ import org.bukkit.event.player.PlayerInteractEntityEvent;
+ import org.bukkit.event.player.PlayerInteractEvent;
+ 
+ public class HookTradeMe implements IHook {
+    @Override
+    public Optional<String> cantCatch(PlayerInteractEntityEvent e) {
+-      return TradeMe.getInstance().getUtil().isTrading(e.getPlayer()) ? Optional.of(Utils.getConfigMessage("no_perms2")) : Optional.empty();
++      // Luma start - Useless hooks
++      return Optional.empty();
++      /*return TradeMe.getInstance().getUtil().isTrading(e.getPlayer()) ? Optional.of(Utils.getConfigMessage("no_perms2")) : Optional.empty();*/
++      // Luma end - Useless hooks
+    }
+ 
+    @Override
+    public Optional<String> cantRelease(PlayerInteractEvent e) {
+-      return TradeMe.getInstance().getUtil().isTrading(e.getPlayer()) ? Optional.of(Utils.getConfigMessage("no_perms2")) : Optional.empty();
++      // Luma start - Useless hooks
++      return Optional.empty();
++      /*return TradeMe.getInstance().getUtil().isTrading(e.getPlayer()) ? Optional.of(Utils.getConfigMessage("no_perms2")) : Optional.empty();*/
++      // Luma end - Useless hooks
+    }
+ 
+    @Override
+diff --git a/de/Linus122/SafariNet/Hooks/HookWorldGuard.java b/de/Linus122/SafariNet/Hooks/HookWorldGuard.java
+index 51820c9..5a174ed 100644
+--- a/de/Linus122/SafariNet/Hooks/HookWorldGuard.java
++++ b/de/Linus122/SafariNet/Hooks/HookWorldGuard.java
+@@ -1,6 +1,6 @@
+ package de.Linus122.SafariNet.Hooks;
+ 
+-import com.sk89q.worldguard.bukkit.WGBukkit;
++//import com.sk89q.worldguard.bukkit.WGBukkit; // Luma - Useless dependencies
+ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+ import de.Linus122.SafariNet.Main;
+ import de.Linus122.Utils.Utils;
+@@ -20,18 +20,21 @@ public class HookWorldGuard implements IHook {
+                return Optional.of(Utils.getConfigMessage("no_perms2"));
+             }
+          } else {
+-            try {
+-               for (Method method : WGBukkit.getPlugin().getClass().getMethods()) {
+-                  if (method.getName().equals("canBuild") && method.getParameterTypes()[1].getName().equals("org.bukkit.block.Block")) {
+-                     boolean canBuild = (Boolean)method.invoke(WGBukkit.getPlugin(), e.getPlayer(), e.getRightClicked().getLocation().getBlock());
+-                     if (!canBuild) {
+-                        return Optional.of(Utils.getConfigMessage("no_perms2"));
+-                     }
+-                  }
+-               }
+-            } catch (Exception var7) {
+-               var7.printStackTrace();
+-            }
++            // Luma start - Useless dependencies
++            return Optional.empty();
++//            try {
++//               for (Method method : WGBukkit.getPlugin().getClass().getMethods()) {
++//                  if (method.getName().equals("canBuild") && method.getParameterTypes()[1].getName().equals("org.bukkit.block.Block")) {
++//                     boolean canBuild = (Boolean)method.invoke(WGBukkit.getPlugin(), e.getPlayer(), e.getRightClicked().getLocation().getBlock());
++//                     if (!canBuild) {
++//                        return Optional.of(Utils.getConfigMessage("no_perms2"));
++//                     }
++//                  }
++//               }
++//            } catch (Exception var7) {
++//               var7.printStackTrace();
++//            }
++            // Luma end - Useless dependencies
+          }
+       }
+ 
+@@ -48,14 +51,17 @@ public class HookWorldGuard implements IHook {
+                   return Optional.of(Utils.getConfigMessage("no_perms2"));
+                }
+             } else {
+-               for (Method method : WGBukkit.getPlugin().getClass().getMethods()) {
+-                  if (method.getName().equals("canBuild") && method.getParameterTypes()[1].getName().equals("org.bukkit.block.Block")) {
+-                     boolean canBuild = (Boolean)method.invoke(WGBukkit.getPlugin(), e.getPlayer(), e.getClickedBlock());
+-                     if (!canBuild) {
+-                        return Optional.of(Utils.getConfigMessage("no_perms2"));
+-                     }
+-                  }
+-               }
++               // Luma start - Useless dependencies
++               return Optional.empty();
++//               for (Method method : WGBukkit.getPlugin().getClass().getMethods()) {
++//                  if (method.getName().equals("canBuild") && method.getParameterTypes()[1].getName().equals("org.bukkit.block.Block")) {
++//                     boolean canBuild = (Boolean)method.invoke(WGBukkit.getPlugin(), e.getPlayer(), e.getClickedBlock());
++//                     if (!canBuild) {
++//                        return Optional.of(Utils.getConfigMessage("no_perms2"));
++//                     }
++//                  }
++//               }
++               // Luma end - Useless dependencies
+             }
+          } catch (Exception var7) {
+             var7.printStackTrace();
