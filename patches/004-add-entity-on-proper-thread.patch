@@ -1,0 +1,51 @@
+diff --git a/de/Linus122/SafariNet/NMS/NMS.java b/de/Linus122/SafariNet/NMS/NMS.java
+index d22029c..f4a6606 100644
+--- a/de/Linus122/SafariNet/NMS/NMS.java
++++ b/de/Linus122/SafariNet/NMS/NMS.java
+@@ -2,6 +2,8 @@ package de.Linus122.SafariNet.NMS;
+ 
+ import java.util.List;
+ import java.util.Optional;
++import java.util.concurrent.CompletableFuture;
++
+ import org.bukkit.Location;
+ import org.bukkit.World;
+ import org.bukkit.entity.Entity;
+@@ -32,7 +34,7 @@ public interface NMS {
+ 
+    void setLore(ItemStack var1, List<String> var2);
+ 
+-   boolean addEntityWithUUID(World var1, LivingEntity var2, SpawnReason var3);
++   CompletableFuture<Boolean> addEntityWithUUID(World var1, LivingEntity var2, SpawnReason var3); // Luma - add entity on proper thread
+ 
+    void setEntityPosAndLevel(Entity var1, Location var2);
+ }
+diff --git a/de/Linus122/SafariNet/version/v1_21_R7/NMSUtils.java b/de/Linus122/SafariNet/version/v1_21_R7/NMSUtils.java
+index 7b51a1e..fbcfccf 100644
+--- a/de/Linus122/SafariNet/version/v1_21_R7/NMSUtils.java
++++ b/de/Linus122/SafariNet/version/v1_21_R7/NMSUtils.java
+@@ -9,6 +9,7 @@ import de.Linus122.SafariNet.NMS.WrappedCompoundTag;
+ import java.util.Base64;
+ import java.util.List;
+ import java.util.Optional;
++import java.util.concurrent.CompletableFuture;
+ import java.util.stream.Collectors;
+ import net.minecraft.core.RegistryAccess;
+ import net.minecraft.core.component.DataComponentPatch;
+@@ -131,8 +132,14 @@ public class NMSUtils implements NMS {
+    }
+ 
+    @Override
+-   public boolean addEntityWithUUID(World world, LivingEntity entity, SpawnReason spawnReason) {
+-      return ((CraftWorld)world).getHandle().addWithUUID(((CraftLivingEntity)entity).getHandle(), spawnReason);
++   public CompletableFuture<Boolean> addEntityWithUUID(World world, LivingEntity entity, SpawnReason spawnReason) {
++      // Luma start - add entity on proper thread
++      CompletableFuture<Boolean> future = new CompletableFuture<>();
++      entity.getScheduler().run(Main.getInstance(), (t) -> {
++         ((CraftWorld)world).getHandle().addWithUUID(((CraftLivingEntity)entity).getHandle(), spawnReason);
++      }, null);
++      return future;
++      // Luma end - add entity on proper thread
+    }
+ 
+    @Override
