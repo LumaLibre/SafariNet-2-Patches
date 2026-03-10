@@ -1,0 +1,13 @@
+diff --git a/de/Linus122/SafariNet/Main.java b/de/Linus122/SafariNet/Main.java
+index 117748c..787511c 100644
+--- a/de/Linus122/SafariNet/Main.java
++++ b/de/Linus122/SafariNet/Main.java
+@@ -126,7 +126,7 @@ public class Main extends JavaPlugin {
+    }
+ 
+    public void onDisable() {
+-      Bukkit.resetRecipes();
++      //Bukkit.resetRecipes(); // Luma - Remove intrusive reset recipes
+    }
+ 
+    public void reload() {

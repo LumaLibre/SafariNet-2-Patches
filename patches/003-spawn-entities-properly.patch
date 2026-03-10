@@ -1,0 +1,33 @@
+diff --git a/de/Linus122/SafariNet/SafariNetManager.java b/de/Linus122/SafariNet/SafariNetManager.java
+index eb6e9d5..7881c2b 100644
+--- a/de/Linus122/SafariNet/SafariNetManager.java
++++ b/de/Linus122/SafariNet/SafariNetManager.java
+@@ -81,13 +81,22 @@ public class SafariNetManager {
+       WrappedCompoundTag entityCompound = safariNet.getEntityData();
+       entityCompound.remove("UUID");
+       Main.sendDebug("Try spawning entity with tag " + entityCompound);
+-      Main.nms.getEntityFromTag(entityCompound, location.getWorld()).ifPresent(entity -> {
+-         Main.nms.setEntityPosAndLevel(entity, location);
+-         this.spawnAdapters.forEach(adapter -> adapter.onPreSpawn(entity, entityCompound));
+-         Main.nms.addEntityWithUUID(location.getWorld(), (LivingEntity)entity, SpawnReason.SPAWNER_EGG);
+-         this.spawnAdapters.forEach(adapter -> adapter.onPostSpawn(entity, entityCompound));
+-         entity.teleport(location);
++      // Luma start - Spawn entities properly
++      Bukkit.getRegionScheduler().run(Main.getInstance(), location, (t) -> {
++         try {
++            Main.nms.getEntityFromTag(entityCompound, location.getWorld()).ifPresent(entity -> {
++               Main.nms.addEntityWithUUID(location.getWorld(), (LivingEntity) entity, SpawnReason.SPAWNER_EGG);
++               entity.getScheduler().run(Main.getInstance(), (ta) -> {
++                  Main.nms.setEntityPosAndLevel(entity, location);
++                  this.spawnAdapters.forEach(adapter -> adapter.onPreSpawn(entity, entityCompound));
++                  this.spawnAdapters.forEach(adapter -> adapter.onPostSpawn(entity, entityCompound));
++               }, () -> new IllegalStateException("Failed to set entity position and level").printStackTrace());
++            });
++         } catch (Throwable throwable) {
++            throwable.printStackTrace();
++         }
+       });
++      // Luma end - Spawn entities properly
+    }
+ 
+    public void loadRecipes() {
