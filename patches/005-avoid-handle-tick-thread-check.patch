@@ -1,0 +1,72 @@
+diff --git a/de/Linus122/SafariNet/SafariNetManager.java b/de/Linus122/SafariNet/SafariNetManager.java
+index 7881c2b..2908aaa 100644
+--- a/de/Linus122/SafariNet/SafariNetManager.java
++++ b/de/Linus122/SafariNet/SafariNetManager.java
+@@ -82,19 +82,23 @@ public class SafariNetManager {
+       entityCompound.remove("UUID");
+       Main.sendDebug("Try spawning entity with tag " + entityCompound);
+       // Luma start - Spawn entities properly
++      /* Ensure we're on the right thread */
+       Bukkit.getRegionScheduler().run(Main.getInstance(), location, (t) -> {
+-         try {
+-            Main.nms.getEntityFromTag(entityCompound, location.getWorld()).ifPresent(entity -> {
+-               Main.nms.addEntityWithUUID(location.getWorld(), (LivingEntity) entity, SpawnReason.SPAWNER_EGG);
+-               entity.getScheduler().run(Main.getInstance(), (ta) -> {
+-                  Main.nms.setEntityPosAndLevel(entity, location);
+-                  this.spawnAdapters.forEach(adapter -> adapter.onPreSpawn(entity, entityCompound));
+-                  this.spawnAdapters.forEach(adapter -> adapter.onPostSpawn(entity, entityCompound));
+-               }, () -> new IllegalStateException("Failed to set entity position and level").printStackTrace());
+-            });
+-         } catch (Throwable throwable) {
+-            throwable.printStackTrace();
+-         }
++         Main.nms.getEntityFromTag(entityCompound, location.getWorld()).ifPresent(entity -> {
++            /* Set entity position first */
++            Main.nms.setEntityPosAndLevel(entity, location);
++
++            /* RoseStacker whatever */
++            this.spawnAdapters.forEach(adapter -> adapter.onPreSpawn(entity, entityCompound));
++
++            /* Then, add the entity to the world on this thread. */
++            Main.nms.addEntityWithUUID(location.getWorld(), (LivingEntity) entity, SpawnReason.SPAWNER_EGG);
++
++            /* At this point, the entity could go anywhere so let's just schedule this properly. */
++            entity.getScheduler().run(Main.getInstance(), (t2) -> {
++               this.spawnAdapters.forEach(adapter -> adapter.onPostSpawn(entity, entityCompound));
++            }, null);
++         });
+       });
+       // Luma end - Spawn entities properly
+    }
+diff --git a/de/Linus122/SafariNet/version/v1_21_R7/NMSUtils.java b/de/Linus122/SafariNet/version/v1_21_R7/NMSUtils.java
+index 0f0d804..8605977 100644
+--- a/de/Linus122/SafariNet/version/v1_21_R7/NMSUtils.java
++++ b/de/Linus122/SafariNet/version/v1_21_R7/NMSUtils.java
+@@ -5,6 +5,8 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
+ import com.mojang.serialization.JsonOps;
+ import de.Linus122.SafariNet.NMS.NMS;
+ import de.Linus122.SafariNet.NMS.WrappedCompoundTag;
++
++import java.lang.reflect.Field;
+ import java.util.Base64;
+ import java.util.List;
+ import java.util.Optional;
+@@ -136,7 +138,16 @@ public class NMSUtils implements NMS {
+ 
+    @Override
+    public void setEntityPosAndLevel(Entity entity, Location location) {
+-      ((CraftEntity)entity).getHandle().setPos(location.getX(), location.getY(), location.getZ());
+-      ((CraftEntity)entity).getHandle().setLevel(((CraftWorld)location.getWorld()).getHandle());
++      // Luma start - avoid handle tick thread check
++      try {
++         Field field = CraftEntity.class.getDeclaredField("entity");
++         field.setAccessible(true);
++         net.minecraft.world.entity.Entity nmsEntity = (net.minecraft.world.entity.Entity) field.get((CraftEntity)entity);
++         nmsEntity.setPos(location.getX(), location.getY(), location.getZ());
++         nmsEntity.setLevel(((CraftWorld)location.getWorld()).getHandle());
++      } catch (NoSuchFieldException | IllegalAccessException e) {
++         e.printStackTrace();
++      }
++      // Luma end - avoid handle tick thread check
+    }
+ }

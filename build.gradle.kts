@@ -41,7 +41,7 @@ dependencies {
     // Paper API
     //compileOnly("io.papermc.paper:paper-api:1.21-R0.1-SNAPSHOT")
     //compileOnly("dev.folia:folia-api:1.20.1-R0.1-SNAPSHOT")
-    paperweight.paperDevBundle("1.21.11-R0.1-SNAPSHOT") {
+    paperweight.foliaDevBundle("1.21.11-R0.1-SNAPSHOT") {
         isTransitive = false
     }
     compileOnly("com.github.GriefPrevention:GriefPrevention:16.18.2")
