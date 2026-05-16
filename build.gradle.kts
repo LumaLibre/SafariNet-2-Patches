@@ -67,6 +67,7 @@ dependencies {
     compileOnly("com.ticxo.modelengine:ModelEngine:R4.0.4")
     compileOnly("dev.rosewood:rosestacker:1.5.39")
     compileOnly("com.github.MilkBowl:VaultAPI:1.7") { isTransitive = false }
+    compileOnly("com.google.inject:guice:5.1.0")
 }
 
 
