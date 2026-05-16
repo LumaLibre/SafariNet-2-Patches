@@ -9,7 +9,7 @@ import java.io.ByteArrayOutputStream
 plugins {
     id("java")
     id("com.gradleup.shadow") version "9.3.1"
-    id("io.papermc.paperweight.userdev") version "2.0.0-beta.19"
+    id("io.papermc.paperweight.userdev") version "2.0.0-beta.21"
 }
 
 
@@ -41,7 +41,7 @@ dependencies {
     // Paper API
     //compileOnly("io.papermc.paper:paper-api:1.21-R0.1-SNAPSHOT")
     //compileOnly("dev.folia:folia-api:1.20.1-R0.1-SNAPSHOT")
-    paperweight.foliaDevBundle("1.21.11-R0.1-SNAPSHOT") {
+    paperweight.foliaDevBundle("26.1.2.build.+") {
         isTransitive = false
     }
     compileOnly("com.github.GriefPrevention:GriefPrevention:16.18.2")
@@ -93,7 +93,7 @@ tasks {
 }
 
 java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
+    toolchain.languageVersion.set(JavaLanguageVersion.of(25))
 }
 
 val decompileConfig = DecompileConfig(
