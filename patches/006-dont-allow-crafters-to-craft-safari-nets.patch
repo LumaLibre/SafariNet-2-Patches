@@ -2,22 +2,14 @@ diff --git a/de/Linus122/SafariNet/Listeners/Listeners.java b/de/Linus122/Safari
 index e27a410..7785cc8 100644
 --- a/de/Linus122/SafariNet/Listeners/Listeners.java
 +++ b/de/Linus122/SafariNet/Listeners/Listeners.java
-@@ -14,6 +14,7 @@ import org.bukkit.event.EventHandler;
- import org.bukkit.event.EventPriority;
- import org.bukkit.event.Listener;
- import org.bukkit.event.Event.Result;
-+import org.bukkit.event.block.CrafterCraftEvent;
- import org.bukkit.event.inventory.InventoryClickEvent;
- import org.bukkit.event.player.PlayerInteractAtEntityEvent;
- import org.bukkit.event.player.PlayerJoinEvent;
-@@ -90,4 +91,14 @@ public class Listeners implements Listener {
+@@ -90,4 +90,14 @@ public class Listeners implements Listener {
           }
        }
     }
 +
 +   // Luma start - Don't allow crafters to craft safari nets
 +   @EventHandler(ignoreCancelled = true)
-+   public void onCrafterCraft(CrafterCraftEvent e) {
++   public void onCrafterCraft(org.bukkit.event.block.CrafterCraftEvent e) {
 +      ItemStack result = e.getResult();
 +      if (SafariNet.isSafariNet(result)) {
 +         e.setCancelled(true);
