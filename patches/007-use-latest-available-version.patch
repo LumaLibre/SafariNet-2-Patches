@@ -1,0 +1,19 @@
+diff --git a/de/Linus122/Utils/Utils.java b/de/Linus122/Utils/Utils.java
+index 72ac94d..6cacd2b 100644
+--- a/de/Linus122/Utils/Utils.java
++++ b/de/Linus122/Utils/Utils.java
+@@ -63,7 +63,13 @@ public class Utils {
+          rVersion = craftBukkitPackage.split("\\.")[3].substring(1);
+       }
+ 
+-      return Utils.Version.valueOf("v" + rVersion);
++      // Luma start - Use latest available version
++      try {
++         return Utils.Version.valueOf("v" + rVersion);
++      } catch (IllegalArgumentException var10) {
++         return Version.v1_21_R7;
++      }
++      // Luma end - Use latest available version
+    }
+ 
+    @Deprecated
