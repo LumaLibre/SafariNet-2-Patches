@@ -1,0 +1,42 @@
+diff --git a/de/Linus122/SafariNet/SafariNetManager.java b/de/Linus122/SafariNet/SafariNetManager.java
+index 2908aaa..663fd77 100644
+--- a/de/Linus122/SafariNet/SafariNetManager.java
++++ b/de/Linus122/SafariNet/SafariNetManager.java
+@@ -104,18 +104,26 @@ public class SafariNetManager {
+    }
+ 
+    public void loadRecipes() {
+-      Bukkit.recipeIterator().forEachRemaining(recipe -> {
+-         if (((Keyed)recipe).getKey().getNamespace().equals("safarinet")) {
+-            Bukkit.removeRecipe(((Keyed)recipe).getKey());
+-         }
+-      });
+-      Main.getPluginConfig().getSafariNetConfigs().forEach((key, safariNetConfig) -> {
+-         RecipeConfig recipeConfig = safariNetConfig.getRecipe();
+-         ShapedRecipe recipe = new ShapedRecipe(key, this.createEmptySafariNet(key));
+-         recipe.shape(recipeConfig.getShape().toArray(String[]::new));
+-         recipeConfig.getIngredients().forEach(recipe::setIngredient);
+-         Bukkit.addRecipe(recipe);
++      // Luma start - Avoid concurrent mod in recipes
++      Bukkit.getGlobalRegionScheduler().run(Main.getInstance(), task -> {
++         List<NamespacedKey> toRemove = new ArrayList<>();
++         Bukkit.recipeIterator().forEachRemaining(recipe -> {
++            if (recipe instanceof Keyed keyed
++                    && keyed.getKey().getNamespace().equals("safarinet")) {
++               toRemove.add(keyed.getKey());
++            }
++         });
++         toRemove.forEach(Bukkit::removeRecipe);
++
++         Main.getPluginConfig().getSafariNetConfigs().forEach((key, cfg) -> {
++            RecipeConfig recipeConfig = cfg.getRecipe();
++            ShapedRecipe recipe = new ShapedRecipe(key, createEmptySafariNet(key));
++            recipe.shape(recipeConfig.getShape().toArray(String[]::new));
++            recipeConfig.getIngredients().forEach(recipe::setIngredient);
++            Bukkit.addRecipe(recipe);
++         });
+       });
++      // Luma end - Avoid concurrent mod in recipes
+    }
+ 
+    public void refreshKeyTypes() {
