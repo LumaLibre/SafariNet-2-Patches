@@ -1,0 +1,45 @@
+diff --git a/de/Linus122/SafariNet/Listeners/CaptureListener.java b/de/Linus122/SafariNet/Listeners/CaptureListener.java
+index 3862566..57913a9 100644
+--- a/de/Linus122/SafariNet/Listeners/CaptureListener.java
++++ b/de/Linus122/SafariNet/Listeners/CaptureListener.java
+@@ -117,6 +117,7 @@ public class CaptureListener implements Listener {
+                         }
+                      }
+                   } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | ClassNotFoundException var10) {
++                     var10.printStackTrace(); // Luma - print stack trace
+                   }
+                }
+ 
+diff --git a/de/Linus122/SafariNet/Listeners/Listeners.java b/de/Linus122/SafariNet/Listeners/Listeners.java
+index 5a7c8ae..3d61f79 100644
+--- a/de/Linus122/SafariNet/Listeners/Listeners.java
++++ b/de/Linus122/SafariNet/Listeners/Listeners.java
+@@ -21,6 +21,7 @@ import org.bukkit.inventory.AnvilInventory;
+ import org.bukkit.inventory.Inventory;
+ import org.bukkit.inventory.InventoryView;
+ import org.bukkit.inventory.ItemStack;
++import org.bukkit.inventory.PlayerInventory;
+ import org.bukkit.inventory.meta.ItemMeta;
+ 
+ public class Listeners implements Listener {
+@@ -28,15 +29,15 @@ public class Listeners implements Listener {
+ 
+    @EventHandler
+    public void interactAt(PlayerInteractAtEntityEvent e) {
+-      if (SafariNet.isSafariNet(e.getPlayer().getItemInHand())
+-         || Utils.hasMethod(e.getPlayer().getInventory().getClass(), "getItemInOffHand")
+-            && SafariNet.isSafariNet(e.getPlayer().getInventory().getItemInOffHand())) {
+-         if (e.getRightClicked() != null && e.getRightClicked() instanceof ItemFrame) {
++      // Luma start - rewrite double safari nets listener
++      PlayerInventory inv = e.getPlayer().getInventory();
++      if (SafariNet.isSafariNet(inv.getItemInMainHand()) && SafariNet.isSafariNet(inv.getItemInOffHand())) {
++         if (e.getRightClicked() instanceof ItemFrame) {
+             return;
+          }
+-
+          e.setCancelled(true);
+       }
++      // Luma end - rewrite double safari nets listener
+    }
+ 
+    @EventHandler
